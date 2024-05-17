@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  repositories: |
+    - url: https://github.com/your-username/your-repo
+      usernameSecret:
+        name: repo-secret
+        key: username
+      passwordSecret:
+        name: repo-secret
+        key: password

@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: rails-pipeline
+spec:
+  tasks:
+    - name: fetch-repo
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: 'https://github.com/your-username/your-repo.git'
+        - name: revision
+          value: 'main'
+    - name: build-and-push
+      taskRef:
+        name: kaniko
+        kind: ClusterTask
+      params:
+        - name: DOCKERFILE
+          value: /workspace/source/Dockerfile
+        - name: CONTEXT
+          value: /workspace/source
+        - name: DESTINATION
+          value: 'docker.io/your-dockerhub-username/myapp:latest'
